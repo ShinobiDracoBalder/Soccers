@@ -24,7 +24,7 @@ namespace Soccers.Web.Data
         public async Task SeedAsync()
         {
             await _dataContext.Database.EnsureCreatedAsync();
-            await CheckRolesAsync();
+            //await CheckRolesAsync();
             await CheckTeamsAsync();
             await CheckTournamentsAsync();
             //await CheckUserAsync("911", "draco", "Orochi", "draco.orochi@yopmail.com", "350 634 2747", "Calle Luna Calle Sol", UserType.Admin, "Zulu.jpg");
@@ -700,7 +700,7 @@ namespace Soccers.Web.Data
         }
         private async Task<string> UploadImageTournamentAsync(string name)
         {
-            string path = $"~/images/Tournaments/{name}.jpg";//Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot\\images\\Tournaments", name);
+            string path = $"~/images/Tournaments/{name}";//Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot\\images\\Tournaments", name);
             return path;//await _blobHelper.UploadBlobAsync(path, "tournaments");
         }
 

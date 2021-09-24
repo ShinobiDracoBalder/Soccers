@@ -15,6 +15,21 @@ namespace Soccers.Web.Data.Entities
         public string LogoFullPath => string.IsNullOrEmpty(LogoPath)
            ? "https://localhost:44372//images/noimage.png"
            : $"https://zulusoccer.blob.core.windows.net/teams/{LogoPath}";
+        [Display(Name = "Image")]
+        public string ImageFullPath
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(LogoPath))
+                {
+                    return "https://localhost:44372//images/noimage.png";
+                }
+
+                return string.Format(
+                    "https://localhost:44372/{0}",
+                    LogoPath.Substring(1));
+            }
+        }
         public ICollection<GroupDetailEntity> GroupDetails { get; set; }
     }
 }

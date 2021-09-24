@@ -156,7 +156,7 @@ namespace Soccers.Web.Controllers
                     {
                         if (dbUpdateException.InnerException.Message.Contains("duplicate"))
                         {
-                            ModelState.AddModelError(string.Empty, "Ya existe este tipo de vehículo.");
+                            ModelState.AddModelError(string.Empty, $"Ya existe este el equipo:{team.Name}.");
                         }
                         else
                         {

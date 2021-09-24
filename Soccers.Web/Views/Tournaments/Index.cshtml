@@ -1,0 +1,99 @@
+﻿@model IEnumerable<Soccers.Web.Data.Entities.TournamentEntity>
+
+@{ ViewData["Title"] = "Index"; }
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" />
+<br />
+
+<div class="row">
+    <div class="col">
+        <h1></h1>
+    </div>
+    <div class="col text-right">
+        <p>
+            <a asp-action="Create" class="btn btn-outline-primary" style="border-radius: 60px;"> Create New</a>
+        </p>
+    </div>
+</div>
+<br />
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Tournaments</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table table-hover table-striped" id="MyTable" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.StartDate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.EndDate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.LogoPath)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Name)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.IsActive)
+                            </th>
+                            <th>
+                                # Groups
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.StartDateLocal)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.EndDateLocal)
+                            </td>
+                            <td>
+                                <img src="@item.ImageFullPath" style="width:100px;height:100px;max-width: 100%; height: auto;" />
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IsActive)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Groups.Count)
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-warning"  style="border-radius: 60px;"><i class="glyphicon glyphicon-pencil"></i></a>
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-info"  style="border-radius: 60px;"><i class="glyphicon glyphicon glyphicon-align-justify"></i></a>
+                                <button data-id="@item.Id" class="btn btn-outline-danger deleteItem" data-toggle="modal" data-target="#deleteDialog" style="border-radius: 60px;"><i class="glyphicon glyphicon-trash"  style="border-radius: 60px;"></i></button>
+                            </td>
+                        </tr>}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<partial name="_DeleteDialog" />
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="//cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="/js/deleteDialog.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#MyTable').DataTable();
+
+            // Delete item
+            sc_deleteDialog.openModal('deleteItem', true, 'btnYesDelete', '/Tournaments/Delete/', false);
+        });</script>
+}

@@ -16,6 +16,7 @@ namespace Soccers.Web.Data
             modelBuilder.Entity<TeamEntity>()
              .HasIndex(t => t.Name)
              .IsUnique();
+          
         }
 
     }

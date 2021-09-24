@@ -28,6 +28,26 @@ namespace Soccers.Web.Data.Entities
         public bool IsActive { get; set; }
         [Display(Name = "Logo")]
         public string LogoPath { get; set; }
+        [Display(Name = "Logo")]
+        public string LogoFullPath => string.IsNullOrEmpty(LogoPath)
+           ? "https://SoccerWeb0.azurewebsites.net//images/noimage.png"
+           : $"https://zulusoccer.blob.core.windows.net/tournaments/{LogoPath}";
+
+        public string ImageFullPath
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(LogoPath))
+                {
+                    return "https://localhost:44372//images/noimage.png";
+                }
+
+                return string.Format(
+                    "https://localhost:44372/{0}",
+                    LogoPath.Substring(1));
+            }
+        }
+
         public ICollection<GroupEntity> Groups { get; set; }
     }
 }
