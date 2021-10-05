@@ -131,7 +131,6 @@ namespace Soccers.Web.Helpers
                 Visitor = await _dataContext.Teams.FindAsync(model.VisitorId)
             };
         }
-
         public MatchViewModel ToMatchViewModel(MatchEntity matchEntity)
         {
             return new MatchViewModel
