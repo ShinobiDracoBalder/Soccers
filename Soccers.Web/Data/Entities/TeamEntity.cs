@@ -30,6 +30,7 @@ namespace Soccers.Web.Data.Entities
                     LogoPath.Substring(1));
             }
         }
+        public ICollection<UserEntity> Users { get; set; }
         public ICollection<GroupDetailEntity> GroupDetails { get; set; }
     }
 }

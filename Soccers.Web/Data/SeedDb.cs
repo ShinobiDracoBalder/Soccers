@@ -1,4 +1,5 @@
-﻿using Soccers.Common.Enums;
+﻿using Microsoft.EntityFrameworkCore;
+using Soccers.Common.Enums;
 using Soccers.Web.Data.Entities;
 using Soccers.Web.Helpers;
 using System;
@@ -13,23 +14,25 @@ namespace Soccers.Web.Data
     {
         private readonly DataContext _dataContext;
         private readonly IImageHelper _imageHelper;
+        private readonly IUserHelper _userHelper;
         private readonly Random _random;
 
-        public SeedDb(DataContext dataContext, IImageHelper imageHelper)
+        public SeedDb(DataContext dataContext, IImageHelper imageHelper, IUserHelper userHelper)
         {
             _dataContext = dataContext;
             _imageHelper = imageHelper;
+            _userHelper = userHelper;
             _random = new Random();
         }
         public async Task SeedAsync()
         {
             await _dataContext.Database.EnsureCreatedAsync();
-            //await CheckRolesAsync();
+            await CheckRolesAsync();
             await CheckTeamsAsync();
             await CheckTournamentsAsync();
-            //await CheckUserAsync("911", "draco", "Orochi", "draco.orochi@yopmail.com", "350 634 2747", "Calle Luna Calle Sol", UserType.Admin, "Zulu.jpg");
-            //await CheckUsersAsync();
-            //await CheckPreditionsAsync();
+            await CheckUserAsync("911", "draco", "Orochi", "draco.orochi@jpmail.com", "(21-11: 00) 03 5774 0992", "Castillo Edo, el Palacio Imperial de Tokio", UserType.Admin, "Xamarin.jpg");
+            await CheckUsersAsync();
+            await CheckPreditionsAsync();
         }
 
         private async Task CheckUsersAsync(){
@@ -37,7 +40,7 @@ namespace Soccers.Web.Data
             int i = 0;
             foreach (Photo photo in photos){
                 i++;
-                //await CheckUserAsync($"100{i}", photo.Firstname, photo.Lastname, $"user{i}@yopmail.com", "350 634 2747", "Calle Luna Calle Sol", UserType.User, photo.Image);
+               await CheckUserAsync($"100{i}", photo.Firstname, photo.Lastname, $"user{i}@yopmail.com", "350 634 2747", "Calle Luna Calle Sol", UserType.User, photo.Image);
             }
         }
         private List<Photo> LoadPhotos()
@@ -49,6 +52,7 @@ namespace Soccers.Web.Data
                 new Photo { Firstname = "Camila", Lastname = "Cardona", Image = "Camila.jpg" },
                 new Photo { Firstname = "Carolina", Lastname = "Echavarria", Image = "Carolina.jpg" },
                 new Photo { Firstname = "Claudia", Lastname = "Sanchez", Image = "Claudia.jpg" },
+                new Photo { Firstname = "Juan", Lastname = "Zuluaga", Image = "Zulu.jpg" },
                 new Photo { Firstname = "Gilberto", Lastname = "Medez", Image = "Gilberto.jpg" },
                 new Photo { Firstname = "Jhon", Lastname = "Smith", Image = "Jhon.jpg" },
                 new Photo { Firstname = "Ken", Lastname = "Rogers", Image = "Ken.jpg" },
@@ -71,53 +75,63 @@ namespace Soccers.Web.Data
             };
         }
 
-        //private async Task<UserEntity> CheckUserAsync(
-        //   string document,
-        //   string firstName,
-        //   string lastName,
-        //   string email,
-        //   string phone,
-        //   string address,
-        //   UserType userType,
-        //   string image)
-        //{
-        //   UserEntity user = await _userHelper.GetUserAsync(email);
-        //    if (user == null)
-        //    {
-        //        string path = $"~/images/Users/{image}.jpg";//Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot\\images\\Users", image);
-        //        string imageId = path;//await _blobHelper.UploadBlobAsync(path, "users");
+        private async Task<UserEntity> CheckUserAsync(
+           string document,
+           string firstName,
+           string lastName,
+           string email,
+           string phone,
+           string address,
+           UserType userType,
+           string image)
+        {
+            try
+            {
+                UserEntity user = await _userHelper.GetUserAsync(email);
+                if (user == null)
+                {
+                    string path = $"~/images/Users/{image}";//Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot\\images\\Users", image);
+                    string imageId = path;//await _blobHelper.UploadBlobAsync(path, "users");
 
-        //        int totalTeams = _context.Teams.Count();
-        //        int random = _random.Next(1, _context.Teams.Count());
-        //        TeamEntity team = _context.Teams.FirstOrDefault(t => t.Id == random);
+                    int totalTeams = _dataContext.Teams.Count();
+                    int random = _random.Next(1, _dataContext.Teams.Count());
+                    TeamEntity team = _dataContext.Teams.FirstOrDefault(t => t.Id == random);
 
-        //        user = new UserEntity
-        //        {
-        //            FirstName = firstName,
-        //            LastName = lastName,
-        //            Email = email,
-        //            UserName = email,
-        //            PhoneNumber = phone,
-        //            Address = address,
-        //            Document = document,
-        //            Team = team,
-        //            UserType = userType,
-        //            PicturePath = imageId
-        //        };
+                    user = new UserEntity
+                    {
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = email,
+                        UserName = email,
+                        PhoneNumber = phone,
+                        Address = address,
+                        Document = document,
+                        Team = team,
+                        UserType = userType,
+                        ImagePath = imageId
+                    };
 
-        //        await _userHelper.AddUserAsync(user, "D123456");
-        //        await _userHelper.AddUserToRoleAsync(user, userType.ToString());
+                    await _userHelper.AddUserAsync(user, "D123456");
+                    await _userHelper.AddUserToRoleAsync(user, userType.ToString());
 
-        //        string token = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
-        //        await _userHelper.ConfirmEmailAsync(user, token);
-        //    }
+                    //string token = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
+                    //await _userHelper.ConfirmEmailAsync(user, token);
+                }
 
-        //    return user;
-        //}
+                return user;
+            }
+            catch (Exception excep)
+            {
+
+                var r= excep.Message;
+                return null;
+            }
+            
+        }
         private async Task CheckRolesAsync()
         {
-            //await _userHelper.CheckRoleAsync(UserType.Admin.ToString());
-            //await _userHelper.CheckRoleAsync(UserType.User.ToString());
+            await _userHelper.CheckRoleAsync(UserType.Admin.ToString());
+            await _userHelper.CheckRoleAsync(UserType.User.ToString());
         }
 
         private async Task CheckTeamsAsync()
@@ -167,6 +181,7 @@ namespace Soccers.Web.Data
             string path = $"~/images/Teams/{name}.jpg";//Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot\\images\\Teams", $"{name}.jpg");
             string imageId = path;//await _blobHelper.UploadBlobAsync(path, "teams");
             _dataContext.Teams.Add(new TeamEntity { Name = name, LogoPath = imageId });
+            var _Result = await _dataContext.Teams.Take(4).ToListAsync();
         }
 
         private void AddTeam(string name)
@@ -176,23 +191,25 @@ namespace Soccers.Web.Data
 
         private async Task CheckTournamentsAsync()
         {
-            if (!_dataContext.Tournaments.Any())
+            try
             {
-                DateTime startDate = DateTime.Today.AddMonths(2).ToUniversalTime();
-                DateTime endDate = DateTime.Today.AddMonths(3).ToUniversalTime();
-
-                string imageIdCopaAmerica = await UploadImageTournamentAsync("Copa America 2020.png");
-                string imageIdLigaAguila = await UploadImageTournamentAsync("Liga Aguila 2020-I.png");
-                string imageIdChampions = await UploadImageTournamentAsync("Champions 2020.png");
-
-                _dataContext.Tournaments.Add(new TournamentEntity
+                if (!_dataContext.Tournaments.Any())
                 {
-                    StartDate = startDate,
-                    EndDate = endDate,
-                    IsActive = true,
-                    LogoPath = imageIdCopaAmerica,
-                    Name = "Copa America 2020",
-                    Groups = new List<GroupEntity>
+                    DateTime startDate = DateTime.Today.AddMonths(2).ToUniversalTime();
+                    DateTime endDate = DateTime.Today.AddMonths(3).ToUniversalTime();
+
+                    string imageIdCopaAmerica = await UploadImageTournamentAsync("Copa America 2020.png");
+                    string imageIdLigaAguila = await UploadImageTournamentAsync("Liga Aguila 2020-I.png");
+                    string imageIdChampions = await UploadImageTournamentAsync("Champions 2020.png");
+
+                    _dataContext.Tournaments.Add(new TournamentEntity
+                    {
+                        StartDate = startDate,
+                        EndDate = endDate,
+                        IsActive = true,
+                        LogoPath = imageIdCopaAmerica,
+                        Name = "Copa America 2020",
+                        Groups = new List<GroupEntity>
                     {
                         new GroupEntity
                         {
@@ -395,19 +412,19 @@ namespace Soccers.Web.Data
                              }
                         }
                     }
-                });
+                    });
 
-                startDate = DateTime.Today.AddMonths(1).ToUniversalTime();
-                endDate = DateTime.Today.AddMonths(4).ToUniversalTime();
+                    startDate = DateTime.Today.AddMonths(1).ToUniversalTime();
+                    endDate = DateTime.Today.AddMonths(4).ToUniversalTime();
 
-                _dataContext.Tournaments.Add(new TournamentEntity
-                {
-                    StartDate = startDate,
-                    EndDate = endDate,
-                    IsActive = true,
-                    LogoPath = imageIdLigaAguila,
-                    Name = "Liga Aguila 2020-I",
-                    Groups = new List<GroupEntity>
+                    _dataContext.Tournaments.Add(new TournamentEntity
+                    {
+                        StartDate = startDate,
+                        EndDate = endDate,
+                        IsActive = true,
+                        LogoPath = imageIdLigaAguila,
+                        Name = "Liga Aguila 2020-I",
+                        Groups = new List<GroupEntity>
                     {
                         new GroupEntity
                         {
@@ -582,19 +599,19 @@ namespace Soccers.Web.Data
                              }
                         }
                     }
-                });
+                    });
 
-                startDate = DateTime.Today.AddMonths(1).ToUniversalTime();
-                endDate = DateTime.Today.AddMonths(2).ToUniversalTime();
+                    startDate = DateTime.Today.AddMonths(1).ToUniversalTime();
+                    endDate = DateTime.Today.AddMonths(2).ToUniversalTime();
 
-                _dataContext.Tournaments.Add(new TournamentEntity
-                {
-                    StartDate = startDate,
-                    EndDate = endDate,
-                    IsActive = true,
-                    LogoPath = imageIdChampions,
-                    Name = "Champions 2020",
-                    Groups = new List<GroupEntity>
+                    _dataContext.Tournaments.Add(new TournamentEntity
+                    {
+                        StartDate = startDate,
+                        EndDate = endDate,
+                        IsActive = true,
+                        LogoPath = imageIdChampions,
+                        Name = "Champions 2020",
+                        Groups = new List<GroupEntity>
                     {
                         new GroupEntity
                         {
@@ -693,15 +710,23 @@ namespace Soccers.Web.Data
                              }
                         }
                     }
-                });
+                    });
 
-                await _dataContext.SaveChangesAsync();
+                    await _dataContext.SaveChangesAsync();
+                }
+            }
+            catch (Exception excep)
+            {
+
+                var r = excep.Message;
             }
         }
         private async Task<string> UploadImageTournamentAsync(string name)
         {
             string path = $"~/images/Tournaments/{name}";//Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot\\images\\Tournaments", name);
+            var _Result = await _dataContext.Tournaments.Take(2).ToListAsync();
             return path;//await _blobHelper.UploadBlobAsync(path, "tournaments");
+
         }
 
         private class Photo
@@ -711,6 +736,46 @@ namespace Soccers.Web.Data
             public string Lastname { get; set; }
 
             public string Image { get; set; }
+        }
+        private async Task CheckPreditionsAsync()
+        {
+            try
+            {
+                if (!_dataContext.Predictions.Any())
+                {
+                    var usersList = await _dataContext.Users.ToListAsync();
+                    foreach (UserEntity user in usersList)
+                    {
+                        if (user.UserType == UserType.User)
+                        {
+                            AddPrediction(user);
+                        }
+                    }
+
+                    await _dataContext.SaveChangesAsync();
+                }
+            }
+            catch (Exception excep)
+            {
+
+                var r= excep.Message;
+            }
+        }
+
+        private void AddPrediction(UserEntity user)
+        {
+            Random random = new Random();
+            var MatchesList = _dataContext.Matches.ToList();
+            foreach (MatchEntity match in MatchesList)
+            {
+                _dataContext.Predictions.Add(new PredictionEntity
+                {
+                    GoalsLocal = random.Next(0, 5),
+                    GoalsVisitor = random.Next(0, 5),
+                    Match = match,
+                    User = user
+                });
+            }
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Soccers.Common.Enums;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace Soccers.Web.Data.Entities
 {
@@ -21,11 +23,14 @@ namespace Soccers.Web.Data.Entities
         [Required(ErrorMessage = "The field {0} is mandatory.")]
         public string LastName { get; set; }
 
-        [MaxLength(100, ErrorMessage = "The {0} field can not have more than {1} characters.")]
+        [MaxLength(500, ErrorMessage = "The {0} field can not have more than {1} characters.")]
         public string Address { get; set; }
 
         [Display(Name = "Picture")]
         public string PicturePath { get; set; }
+
+        [Display(Name = "Picture")]
+        public string ImagePath { get; set; }
 
         [Display(Name = "User Type")]
         public UserType UserType { get; set; }
@@ -36,7 +41,7 @@ namespace Soccers.Web.Data.Entities
         [Display(Name = "Favorite Team")]
         public TeamEntity Team { get; set; }
 
-        ///public int Points => Predictions == null ? 0 : Predictions.Sum(p => p.Points);
+        public int Points => Predictions == null ? 0 : Predictions.Sum(p => p.Points);
 
         public string FullName => $"{FirstName} {LastName}";
 
@@ -47,5 +52,21 @@ namespace Soccers.Web.Data.Entities
             ? "https://SoccerWeb0.azurewebsites.net//images/noimage.png"
             : LoginType == LoginType.Soccer ? $"https://zulusoccer.blob.core.windows.net/users/{PicturePath}" : PicturePath;
 
+
+        public string ImageFullPath
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(ImagePath))
+                {
+                    return "https://localhost:44372//images/noimage.png";
+                }
+
+                return string.Format(
+                    "https://localhost:44372/{0}",
+                    ImagePath.Substring(1));
+            }
+        }
+       public ICollection<PredictionEntity> Predictions { get; set; }
     }
 }
