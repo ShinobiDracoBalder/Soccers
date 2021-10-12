@@ -333,6 +333,7 @@ namespace Soccers.Web.Controllers
             return RedirectToAction($"{nameof(Details)}/{groupEntity.Tournament.Id}");
         }
 
+        [HttpGet("Something")]
         public async Task<IActionResult> DetailsGroup(int? id)
         {
             if (id == null)
@@ -413,7 +414,7 @@ namespace Soccers.Web.Controllers
                     return View(model);
                 }
             }
-
+            model.Group = await _dataContext.Groups.FindAsync(model.GroupId);
             model.Teams = _combosHelper.GetComboTeams();
             return View(model);
         }
@@ -548,7 +549,8 @@ namespace Soccers.Web.Controllers
                 var matchEntity = await _converterHelper.ToMatchEntityAsync(model, false);
                 _dataContext.Update(matchEntity);
                 await _dataContext.SaveChangesAsync();
-                return RedirectToAction($"{nameof(DetailsGroup)}/{model.GroupId}");
+                //return RedirectToAction($"{nameof(DetailsGroup)}/{model.GroupId}");
+                return RedirectToAction("DetailsGroup", new { id = model.GroupId });
             }
 
             return View(model);
