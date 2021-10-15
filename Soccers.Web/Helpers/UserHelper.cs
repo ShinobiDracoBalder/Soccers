@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Soccers.Common.Enums;
 using Soccers.Web.Data;
 using Soccers.Web.Data.Entities;
+using Soccers.Web.Models;
 using System;
 using System.Threading.Tasks;
 
@@ -57,6 +59,46 @@ namespace Soccers.Web.Helpers
         }
         public async Task<bool> IsUserInRoleAsync(UserEntity user, string roleName){
             return await _userManager.IsInRoleAsync(user, roleName);
+        }
+        public async Task<SignInResult> LoginAsync(LoginViewModel model)
+        {
+            return await _signInManager.PasswordSignInAsync(
+                model.Username,
+                model.Password,
+                model.RememberMe,
+                false);
+        }
+
+        public async Task LogoutAsync()
+        {
+            await _signInManager.SignOutAsync();
+        }
+
+        public async Task<UserEntity> AddUserAsync(AddUserViewModel model, string path, UserType userType)
+        {
+            UserEntity userEntity = new UserEntity
+            {
+                Address = model.Address,
+                Document = model.Document,
+                Email = model.Username,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                PicturePath = path,
+                PhoneNumber = model.PhoneNumber,
+                Team = await _dataContext.Teams.FindAsync(model.TeamId),
+                UserName = model.Username,
+                UserType = userType
+            };
+
+            IdentityResult result = await _userManager.CreateAsync(userEntity, model.Password);
+            if (result != IdentityResult.Success)
+            {
+                return null;
+            }
+
+            UserEntity newUser = await GetUserAsync(model.Username);
+            await AddUserToRoleAsync(newUser, userEntity.UserType.ToString());
+            return newUser;
         }
     }
 }

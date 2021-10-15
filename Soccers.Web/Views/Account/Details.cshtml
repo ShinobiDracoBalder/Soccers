@@ -1,0 +1,78 @@
+﻿@model Soccers.Web.Data.Entities.UserEntity
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="card text-center">
+                <div class="card-header">
+                    Featured
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Special title treatment</h5>
+                    <hr />
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.FullNameWithDocument)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.FullNameWithDocument)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.ImageFullPath)
+                        </dt>
+                        <dd>
+                            <img src="@Model.ImageFullPath" style="width:100px;height:200px;max-width:200%; height: auto;" />
+                        </dd>
+                    </dl>
+                    
+                </div>
+                <div class="card-footer text-muted">
+                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card text-center">
+                <div class="card-header">
+                    Featured
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Special title treatment</h5>
+                    <hr />
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Team.Name)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Team.Name)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Team.ImageFullPath)
+                        </dt>
+                        <dd>
+                            <img src="@Model.Team.ImageFullPath" style="width:100px;height:200px;max-width:200%; height: auto;" />
+                        </dd>
+                        <dd>
+                            @Html.DisplayNameFor(model => model.Points)
+                        </dd>
+                        <dt>
+                            @Html.DisplayFor(model => model.Points)
+                        </dt>
+                    </dl>
+                  
+                </div>
+                <div class="card-footer text-muted">
+                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+        <div class="w-100"></div>
+    </div>
+</div>
