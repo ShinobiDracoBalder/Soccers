@@ -30,12 +30,12 @@
                 <ul class="nav navbar-nav navbar-right">
                     @if (User.Identity.IsAuthenticated)
                     {
-                            <li><a asp-area="" asp-controller="Account" asp-action="ChangeUser" style="border-radius: 60px;">@User.Identity.Name</a></li>
-                            <li><a asp-area="" asp-controller="Account" asp-action="Logout" style="border-radius: 60px;"> Logout</a></li> 
+                            <li><a asp-area="" asp-controller="Account" asp-action="ChangeUser" style="border-radius: 60px;"><i class="glyphicon glyphicon-user"></i> @User.Identity.Name</a></li>
+                            <li><a asp-area="" asp-controller="Account" asp-action="Logout" style="border-radius: 60px;"><i class="glyphicon glyphicon-log-out"></i>  Logout</a></li> 
                     }
                     else
                     {
-                            <li><a asp-area="" asp-controller="Account" asp-action="Login">Login</a></li>
+                            <li><a asp-area="" asp-controller="Account" asp-action="Login"><i class="glyphicon glyphicon-log-in"></i> Login</a></li>
                     }
                 </ul>
             </div>

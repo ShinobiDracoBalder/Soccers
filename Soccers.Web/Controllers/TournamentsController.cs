@@ -84,13 +84,13 @@ namespace Soccers.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("_ResourceNotFound");
             }
 
             var tournamentEntity = await _dataContext.Tournaments.FindAsync(id);
             if (tournamentEntity == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("_ResourceNotFound");
             }
 
             var model = _converterHelper.ToTournamentViewModel(tournamentEntity);
@@ -145,14 +145,14 @@ namespace Soccers.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("_ResourceNotFound");
             }
 
             var tournamentEntity = await _dataContext.Tournaments
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (tournamentEntity == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("_ResourceNotFound");
             }
 
             try
@@ -171,7 +171,7 @@ namespace Soccers.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("_ResourceNotFound");
             }
 
             var tournamentEntity = await _dataContext.Tournaments
@@ -186,7 +186,7 @@ namespace Soccers.Web.Controllers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (tournamentEntity == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("_ResourceNotFound");
             }
 
             return View(tournamentEntity);
@@ -196,13 +196,13 @@ namespace Soccers.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("_ResourceNotFound");
             }
 
             var tournamentEntity = await _dataContext.Tournaments.FindAsync(id);
             if (tournamentEntity == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("_ResourceNotFound");
             }
 
             var model = new GroupViewModel
@@ -250,7 +250,7 @@ namespace Soccers.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("_ResourceNotFound");
             }
 
             var groupEntity = await _dataContext.Groups
@@ -258,7 +258,7 @@ namespace Soccers.Web.Controllers
                 .FirstOrDefaultAsync(g => g.Id == id);
             if (groupEntity == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("_ResourceNotFound");
             }
 
             var model = _converterHelper.ToGroupViewModel(groupEntity);
@@ -302,14 +302,14 @@ namespace Soccers.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("_ResourceNotFound");
             }
             var groupEntity = await _dataContext.Groups
                .Include(g => g.Tournament)
                .FirstOrDefaultAsync(m => m.Id == id);
             if (groupEntity == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("_ResourceNotFound");
             }
 
             try{
@@ -340,7 +340,7 @@ namespace Soccers.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("_ResourceNotFound");
             }
 
             var groupEntity = await _dataContext.Groups
@@ -354,7 +354,7 @@ namespace Soccers.Web.Controllers
                 .FirstOrDefaultAsync(g => g.Id == id);
             if (groupEntity == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("_ResourceNotFound");
             }
 
             return View(groupEntity);
@@ -364,13 +364,13 @@ namespace Soccers.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("_ResourceNotFound");
             }
 
             var groupEntity = await _dataContext.Groups.FindAsync(id);
             if (groupEntity == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("_ResourceNotFound");
             }
 
             var model = new GroupDetailViewModel
@@ -425,13 +425,13 @@ namespace Soccers.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("_ResourceNotFound");
             }
 
             var groupEntity = await _dataContext.Groups.FindAsync(id);
             if (groupEntity == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("_ResourceNotFound");
             }
 
             var model = new MatchViewModel
@@ -492,7 +492,7 @@ namespace Soccers.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("_ResourceNotFound");
             }
 
             var groupDetailEntity = await _dataContext.GroupDetails
@@ -501,7 +501,7 @@ namespace Soccers.Web.Controllers
                 .FirstOrDefaultAsync(gd => gd.Id == id);
             if (groupDetailEntity == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("_ResourceNotFound");
             }
 
             var model = _converterHelper.ToGroupDetailViewModel(groupDetailEntity);
@@ -525,7 +525,7 @@ namespace Soccers.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("_ResourceNotFound");
             }
 
             var matchEntity = await _dataContext.Matches
@@ -535,7 +535,7 @@ namespace Soccers.Web.Controllers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (matchEntity == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("_ResourceNotFound");
             }
 
             var model = _converterHelper.ToMatchViewModel(matchEntity);
@@ -562,7 +562,7 @@ namespace Soccers.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("_ResourceNotFound");
             }
 
             var groupDetailEntity = await _dataContext.GroupDetails
@@ -570,7 +570,7 @@ namespace Soccers.Web.Controllers
                 .FirstOrDefaultAsync(gd => gd.Id == id);
             if (groupDetailEntity == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("_ResourceNotFound");
             }
 
             _dataContext.GroupDetails.Remove(groupDetailEntity);
@@ -582,7 +582,7 @@ namespace Soccers.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("_ResourceNotFound");
             }
 
             var matchEntity = await _dataContext.Matches
@@ -590,7 +590,7 @@ namespace Soccers.Web.Controllers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (matchEntity == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("_ResourceNotFound");
             }
 
             _dataContext.Matches.Remove(matchEntity);
@@ -602,7 +602,7 @@ namespace Soccers.Web.Controllers
         //{
         //    if (id == null)
         //    {
-        //        return NotFound();
+        //        return new NotFoundViewResult("_ResourceNotFound");
         //    }
 
         //    var matchEntity = await _dataContext.Matches
@@ -612,7 +612,7 @@ namespace Soccers.Web.Controllers
         //        .FirstOrDefaultAsync(m => m.Id == id);
         //    if (matchEntity == null)
         //    {
-        //        return NotFound();
+        //        return new NotFoundViewResult("_ResourceNotFound");
         //    }
 
         //    var model = new CloseMatchViewModel

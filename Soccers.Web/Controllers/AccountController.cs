@@ -43,7 +43,7 @@ namespace Soccers.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("_ResourceNotFound");
             }
 
             Data.Entities.UserEntity _user = await _dataContext.Users
@@ -54,7 +54,7 @@ namespace Soccers.Web.Controllers
 
             if (_user == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("_ResourceNotFound");
             }
 
             return View(_user);

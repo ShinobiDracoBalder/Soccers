@@ -34,14 +34,14 @@ namespace Soccers.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("_ResourceNotFound");
             }
 
             TeamEntity teamEntity = await _dataContext.Teams
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (teamEntity == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("_ResourceNotFound");
             }
 
             return View(teamEntity);
@@ -50,14 +50,14 @@ namespace Soccers.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("_ResourceNotFound");
             }
 
             TeamEntity teamEntity = await _dataContext.Teams
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (teamEntity == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("_ResourceNotFound");
             }
 
             _dataContext.Teams.Remove(teamEntity);
@@ -117,13 +117,13 @@ namespace Soccers.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("_ResourceNotFound");
             }
 
             TeamEntity teamEntity = await _dataContext.Teams.FindAsync(id);
             if (teamEntity == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("_ResourceNotFound");
             }
 
             TeamViewModel model = _converterHelper.ToTeamViewModel(teamEntity);
