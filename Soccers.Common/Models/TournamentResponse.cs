@@ -25,6 +25,21 @@ namespace Soccers.Common.Models
             ? "https://SoccerWeb0.azurewebsites.net//images/noimage.png"
             : $"https://zulusoccer.blob.core.windows.net/tournaments/{LogoPath}";
 
+        public string ImageFullPath
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(LogoPath))
+                {
+                    return "noimage";
+                }
+
+                return string.Format(
+                    "localhost:44372{0}",
+                    LogoPath.Substring(1));
+            }
+        }
+
         public List<GroupResponse> Groups { get; set; }
     }
 }

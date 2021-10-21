@@ -1,5 +1,7 @@
-﻿using Soccers.Web.Data.Entities;
+﻿using Soccers.Common.Models;
+using Soccers.Web.Data.Entities;
 using Soccers.Web.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Soccers.Web.Helpers
@@ -16,5 +18,7 @@ namespace Soccers.Web.Helpers
         GroupDetailViewModel ToGroupDetailViewModel(GroupDetailEntity groupDetailEntity);
         Task<MatchEntity> ToMatchEntityAsync(MatchViewModel model, bool isNew);
         MatchViewModel ToMatchViewModel(MatchEntity matchEntity);
+        TournamentResponse ToTournamentResponse(TournamentEntity tournamentEntity);
+        List<TournamentResponse> ToTournamentResponse(List<TournamentEntity> tournamentEntities);
     }
 }

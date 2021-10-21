@@ -25,6 +25,20 @@ namespace Soccers.Common.Models
         public string PictureFullPath => string.IsNullOrEmpty(PicturePath)
             ? "https://SoccerWeb0.azurewebsites.net//images/noimage.png"
             : LoginType == LoginType.Soccer ? $"https://zulusoccer.blob.core.windows.net/users/{PicturePath}" : PicturePath;
+        public string ImageFullPath
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(PicturePath))
+                {
+                    return "noimage";
+                }
+
+                return string.Format(
+                    "localhost:44372{0}",
+                    PicturePath.Substring(1));
+            }
+        }
 
         public UserType UserType { get; set; }
 
