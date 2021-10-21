@@ -45,7 +45,9 @@ namespace Soccers.Web
                 cfg.Password.RequireNonAlphanumeric = false;
                 cfg.Password.RequireUppercase = false;
                 cfg.Password.RequiredLength = 6; 
-            }).AddEntityFrameworkStores<DataContext>();
+            })
+                .AddDefaultTokenProviders()
+                .AddEntityFrameworkStores<DataContext>();
 
             services.AddControllersWithViews()
                 .AddRazorRuntimeCompilation();
@@ -54,6 +56,18 @@ namespace Soccers.Web
             {
                 cfg.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
+
+            //services.AddAuthentication()
+            //   .AddCookie()
+            //   .AddJwtBearer(cfg =>
+            //   {
+            //       cfg.TokenValidationParameters = new TokenValidationParameters
+            //       {
+            //           ValidIssuer = Configuration["Tokens:Issuer"],
+            //           ValidAudience = Configuration["Tokens:Audience"],
+            //           IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Tokens:Key"]))
+            //       };
+            //   });
 
             services.AddTransient<SeedDb>();
             services.AddScoped<IImageHelper, ImageHelper>();
@@ -79,9 +93,9 @@ namespace Soccers.Web
             app.UseStatusCodePagesWithReExecute("/error/{0}");
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseAuthentication();
             app.UseRouting();
             app.UseAuthorization();
-            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {

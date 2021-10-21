@@ -59,11 +59,16 @@ namespace Soccers.Web.Data.Entities
             {
                 if (string.IsNullOrEmpty(ImagePath))
                 {
-                    return "https://localhost:44372//images/noimage.png";
+                    //return "https://localhost:44372//images/noimage.png";
+                    return "http://soccers.ddns.net:8085/images/noimage.png";
                 }
 
+                //return string.Format(
+                //    "https://localhost:44372/{0}",
+                //    ImagePath.Substring(1));
+
                 return string.Format(
-                    "https://localhost:44372/{0}",
+                    "http://soccers.ddns.net:8085/{0}",
                     ImagePath.Substring(1));
             }
         }
