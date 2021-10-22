@@ -1,5 +1,6 @@
 using Prism;
 using Prism.Ioc;
+using Soccers.Common.Services;
 using Soccers.Prism.ViewModels;
 using Soccers.Prism.Views;
 using Xamarin.Essentials.Implementation;
@@ -19,7 +20,7 @@ namespace Soccers.Prism
         {
             InitializeComponent();
 
-            await NavigationService.NavigateAsync("NavigationPage/MainPage");
+            await NavigationService.NavigateAsync("NavigationPage/TournamentsPage");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -27,7 +28,8 @@ namespace Soccers.Prism
             containerRegistry.RegisterSingleton<IAppInfo, AppInfoImplementation>();
 
             containerRegistry.RegisterForNavigation<NavigationPage>();
-            containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
+            containerRegistry.Register<IApiService, ApiService>();
+            containerRegistry.RegisterForNavigation<TournamentsPage, TournamentsPageViewModel>();
         }
     }
 }

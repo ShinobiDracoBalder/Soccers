@@ -6,6 +6,10 @@
   <Application.Resources>
 
     <!-- Application resource dictionary -->
+        <ResourceDictionary>
+            <!-- Parameters -->
+            <x:String x:Key="UrlAPI">http://soccers.ddns.net:8085/</x:String>
+        </ResourceDictionary>
 
-  </Application.Resources>
+    </Application.Resources>
 </prism:PrismApplication>
