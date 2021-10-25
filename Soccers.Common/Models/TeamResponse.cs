@@ -12,6 +12,9 @@
             ? "https://SoccerWeb0.azurewebsites.net//images/noimage.png"
             : $"https://zulusoccer.blob.core.windows.net/teams/{LogoPath}";
 
+        public string LogosFullPath => string.IsNullOrEmpty(LogoPath)
+            ? "noimage": string.Format("http://soccers.ddns.net:8085/{0}", LogoPath.Substring(1));
+
         public string ImageFullPath
         {
             get
@@ -22,7 +25,7 @@
                 }
 
                 return string.Format(
-                    "localhost:44372{0}",
+                    "http://soccers.ddns.net:8085/{0}",
                     LogoPath.Substring(1));
             }
         }

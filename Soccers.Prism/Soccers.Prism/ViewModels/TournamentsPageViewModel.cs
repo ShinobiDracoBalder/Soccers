@@ -11,22 +11,26 @@ namespace Soccers.Prism.ViewModels
 {
     public class TournamentsPageViewModel : ViewModelBase
     {
+        private readonly INavigationService _navigationService;
         private readonly IApiService _apiService;
-        private List<TournamentResponse> _tournaments;
+        private List<TournamentItemViewModel> _tournaments;
 
 
         public TournamentsPageViewModel(INavigationService navigationService,
                IApiService apiService) : base(navigationService)
         {
+            _navigationService = navigationService;
             _apiService = apiService;
             Title = "Tourmanments";
             LoadTournamentsAsync();
         }
-        public List<TournamentResponse> Tournaments
+        
+        public List<TournamentItemViewModel> Tournaments
         {
             get => _tournaments;
             set => SetProperty(ref _tournaments, value);
         }
+
         private async void LoadTournamentsAsync()
         {
             string url = App.Current.Resources["UrlAPI"].ToString();
@@ -42,7 +46,18 @@ namespace Soccers.Prism.ViewModels
                 "Accept");
                 return;
             }
-            Tournaments = (List<TournamentResponse>)response.Result;
+           
+            List<TournamentResponse> list = (List<TournamentResponse>)response.Result;
+            Tournaments = list.Select(t => new TournamentItemViewModel(_navigationService)
+            {
+                EndDate = t.EndDate,
+                Groups = t.Groups,
+                Id = t.Id,
+                IsActive = t.IsActive,
+                LogoPath = t.LogoPath,
+                Name = t.Name,
+                StartDate = t.StartDate
+            }).ToList();
         }
     }
 }

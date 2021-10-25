@@ -2,6 +2,7 @@
 <prism:PrismApplication xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              x:Class="Soccers.Prism.App">
   <Application.Resources>
 
@@ -9,6 +10,82 @@
         <ResourceDictionary>
             <!-- Parameters -->
             <x:String x:Key="UrlAPI">http://soccers.ddns.net:8085/</x:String>
+            
+            <!-- Colors -->
+            <Color x:Key="ColorBackgroud">#54E85D</Color>
+            <Color x:Key="ColorPrimary">#191919</Color>
+            <Color x:Key="ColorSecondary">#90FF69</Color>
+            <Color x:Key="ColorDanger">#FFFFFF</Color>
+            <Color x:Key="ColorAccent">#38006A</Color>
+            <Color x:Key="ColorFont">#191919</Color>
+            <Color x:Key="ColorFontInverse">#FFFFFF</Color>
+            
+            <!-- Styles -->
+            <Style TargetType="Button">
+                <Setter Property="BackgroundColor" Value="{StaticResource ColorAccent}" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="TextColor" Value="{StaticResource ColorFontInverse}" />
+            </Style>
+
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource ColorFont}" />
+            </Style>
+
+            <Style x:Key="SecondaryButton" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="{StaticResource ColorSecondary}" />
+            </Style>
+
+            <Style x:Key="DangerButton" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="{StaticResource ColorDanger}" />
+            </Style>
+            <!-- Data Templates -->
+            <DataTemplate x:Key="MatchTemplate">
+                <StackLayout>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <ffimageloading:CachedImage Grid.Column="0"
+                                                    Aspect="AspectFit"
+                                                    CacheDuration= "50"
+                                                    HeightRequest="90"
+                                                    RetryCount= "3"
+                                                    RetryDelay= "600"
+                                                    Source="{Binding Local.LogosFullPath}" 
+                                                    WidthRequest="90"/>
+                        <StackLayout Grid.Column="1"
+                                     VerticalOptions="Center">
+                            <StackLayout HorizontalOptions="Center" 
+                                         Orientation="Horizontal">
+                                <Label FontAttributes="Bold"
+                                       FontSize="48"
+                                       Text="{Binding GoalsLocal}"/>
+                                <Label Text="Vs."
+                                       VerticalOptions="Center"/>
+                                <Label FontAttributes="Bold"
+                                       FontSize="48"
+                                       Text="{Binding GoalsVisitor}"/>
+                            </StackLayout>
+                            <StackLayout Orientation="Horizontal"
+                                         HorizontalOptions="Center">
+                                <Label Text="{Binding DateLocal, StringFormat='{0:yyyy/MM/dd HH:mm}'}"
+                                       VerticalOptions="Center" />
+                            </StackLayout>
+                        </StackLayout>
+                        <ffimageloading:CachedImage Grid.Column="2"
+                                                    Aspect="AspectFit"
+                                                    CacheDuration= "50"
+                                                    HeightRequest="90"
+                                                    RetryCount= "3"
+                                                    RetryDelay= "600"
+                                                    Source="{Binding Visitor.LogosFullPath}" 
+                                                    WidthRequest="90"/>
+                    </Grid>
+                </StackLayout>
+            </DataTemplate>
+            
         </ResourceDictionary>
 
     </Application.Resources>
