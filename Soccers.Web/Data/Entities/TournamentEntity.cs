@@ -40,14 +40,14 @@ namespace Soccers.Web.Data.Entities
                 if (string.IsNullOrEmpty(LogoPath))
                 {
                     //return "https://localhost:44372//images/noimage.png";
-                    return "http://soccers.ddns.net:8085/images/noimage.png";
+                    return "http://soccergame.ddns.net:8085/images/noimage.png";
                 }
 
                 //return string.Format(
                 //    "https://localhost:44372/{0}",
                 //    LogoPath.Substring(1));
                 return string.Format(
-                    "http://soccers.ddns.net:8085/{0}",
+                    "http://soccergame.ddns.net:8085/{0}",
                     LogoPath.Substring(1));
             }
         }

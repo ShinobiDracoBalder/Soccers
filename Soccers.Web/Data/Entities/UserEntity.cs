@@ -60,7 +60,7 @@ namespace Soccers.Web.Data.Entities
                 if (string.IsNullOrEmpty(ImagePath))
                 {
                     //return "https://localhost:44372//images/noimage.png";
-                    return "http://soccers.ddns.net:8085/images/noimage.png";
+                    return "http://soccergame.ddns.net:8085/images/noimage.png";
                 }
 
                 //return string.Format(
@@ -68,7 +68,7 @@ namespace Soccers.Web.Data.Entities
                 //    ImagePath.Substring(1));
 
                 return string.Format(
-                    "http://soccers.ddns.net:8085/{0}",
+                    "http://soccergame.ddns.net:8085/{0}",
                     ImagePath.Substring(1));
             }
         }

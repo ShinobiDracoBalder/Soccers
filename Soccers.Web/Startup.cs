@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Soccers.Web.Data;
 using Soccers.Web.Data.Entities;
+using Soccers.Web.Data.Repositories;
 using Soccers.Web.Helpers;
 using Soccers.Web.Services;
 
@@ -75,6 +76,7 @@ namespace Soccers.Web
             services.AddScoped<ICombosHelper, CombosHelper>(); 
             services.AddScoped<IDapper, Dapperr>();
             services.AddScoped<IUserHelper, UserHelper>();
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Soccers.Web.Data;
 using Soccers.Web.Data.Entities;
+using Soccers.Web.Data.Repositories;
 using Soccers.Web.Helpers;
 using Soccers.Web.Models;
 using System;
@@ -17,17 +18,20 @@ namespace Soccers.Web.Controllers
         private readonly DataContext _dataContext;
         private readonly IImageHelper _imageHelper;
         private readonly IConverterHelper _converterHelper;
+        private readonly IGenericRepository<TeamEntity> _genericRepository;
 
         public TeamsController(DataContext dataContext
-            , IImageHelper imageHelper, IConverterHelper converterHelper)
+            , IImageHelper imageHelper, IConverterHelper converterHelper, IGenericRepository<TeamEntity> genericRepository)
         {
             _dataContext = dataContext;
             _imageHelper = imageHelper;
             _converterHelper = converterHelper;
+            _genericRepository = genericRepository;
         }
         public async Task<IActionResult> Index()
         {
-            return View(await _dataContext.Teams.OrderBy(t => t.Name).ToListAsync());
+            return View(await _genericRepository.GetAllAsync());
+            //return View(await _dataContext.Teams.OrderBy(t => t.Name).ToListAsync());
         }
 
         public async Task<IActionResult> Details(int? id)
@@ -37,8 +41,9 @@ namespace Soccers.Web.Controllers
                 return new NotFoundViewResult("_ResourceNotFound");
             }
 
-            TeamEntity teamEntity = await _dataContext.Teams
-                .FirstOrDefaultAsync(m => m.Id == id);
+            //TeamEntity teamEntity = await _dataContext.Teams
+            //    .FirstOrDefaultAsync(m => m.Id == id);
+            TeamEntity teamEntity = await _genericRepository.GetAsync(id.Value);
             if (teamEntity == null)
             {
                 return new NotFoundViewResult("_ResourceNotFound");
@@ -53,15 +58,17 @@ namespace Soccers.Web.Controllers
                 return new NotFoundViewResult("_ResourceNotFound");
             }
 
-            TeamEntity teamEntity = await _dataContext.Teams
-                .FirstOrDefaultAsync(m => m.Id == id);
+            //TeamEntity teamEntity = await _dataContext.Teams
+            //    .FirstOrDefaultAsync(m => m.Id == id);
+            TeamEntity teamEntity = await _genericRepository.GetAsync(id.Value);
             if (teamEntity == null)
             {
                 return new NotFoundViewResult("_ResourceNotFound");
             }
 
-            _dataContext.Teams.Remove(teamEntity);
-            await _dataContext.SaveChangesAsync();
+            //_dataContext.Teams.Remove(teamEntity);
+            //await _dataContext.SaveChangesAsync();
+            var reponse = await _genericRepository.DeleteAsync(teamEntity);
             return RedirectToAction(nameof(Index));
         }
 
@@ -90,7 +97,8 @@ namespace Soccers.Web.Controllers
 
                 try
                 {
-                    await _dataContext.SaveChangesAsync();
+                    //await _dataContext.SaveChangesAsync();
+                   await _genericRepository.CreateAsync(team);
                     return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateException dbUpdateException)
@@ -151,7 +159,8 @@ namespace Soccers.Web.Controllers
 
                     try
                     {
-                        await _dataContext.SaveChangesAsync();
+                        //await _dataContext.SaveChangesAsync();
+                       await _genericRepository.UpdateAsync(team);
                         return RedirectToAction(nameof(Index));
                     }
                     catch (DbUpdateException dbUpdateException)

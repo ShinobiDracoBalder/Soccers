@@ -10,22 +10,21 @@ using System.Linq;
 
 namespace Soccers.Prism.ViewModels
 {
-    public class MatchesPageViewModel : ViewModelBase
+    public class ClosedMatchesPageViewModel : ViewModelBase
     {
         private TournamentResponse _tournament;
         private List<MatchResponse> _matches;
-        public MatchesPageViewModel(INavigationService navigationService) : base(navigationService)
+
+        public ClosedMatchesPageViewModel(INavigationService navigationService) : base(navigationService)
         {
-            Title = "Open";
+            Title = "Closed";
             LoadMatches();
         }
-
         public List<MatchResponse> Matches
         {
             get => _matches;
             set => SetProperty(ref _matches, value);
         }
-
         private void LoadMatches()
         {
             _tournament = JsonConvert.DeserializeObject<TournamentResponse>(Settings.Tournament);
@@ -35,20 +34,23 @@ namespace Soccers.Prism.ViewModels
                 matches.AddRange(group.Matches);
             }
 
-            Matches = matches.Where(m => !m.IsClosed).OrderBy(m => m.Date).ToList();
+            Matches = matches.Where(m => m.IsClosed).OrderBy(m => m.Date).ToList();
         }
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
-            _tournament = parameters.GetValue<TournamentResponse>("tournament");
-            Title = _tournament.Name;
-            List<MatchResponse> matches = new List<MatchResponse>();
-            foreach (GroupResponse group in _tournament.Groups)
+            if (parameters.ContainsKey("tournament"))
             {
-                matches.AddRange(group.Matches);
+                _tournament = parameters.GetValue<TournamentResponse>("tournament");
+                List<MatchResponse> matches = new List<MatchResponse>();
+                foreach (GroupResponse group in _tournament.Groups)
+                {
+                    matches.AddRange(group.Matches);
+                }
+                Matches = matches.Where(m => m.IsClosed).OrderBy(m => m.Date).ToList();
             }
-            Matches = matches.OrderBy(m => m.Date).ToList();
         }
+
     }
 }

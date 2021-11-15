@@ -27,7 +27,7 @@ namespace Soccers.Common.Models
 
         public string LogosFullPath => string.IsNullOrEmpty(LogoPath)
             ? "noimage" 
-            : string.Format("http://soccers.ddns.net:8085/{0}", LogoPath.Substring(1));
+            : string.Format("http://soccergame.ddns.net:8085/{0}", LogoPath.Substring(1));
 
         public string ImageFullPath
         {
@@ -39,7 +39,7 @@ namespace Soccers.Common.Models
                 }
 
                 return string.Format(
-                    "http://soccers.ddns.net:8085/{0}",
+                    "http://soccergame.ddns.net:8085/{0}",
                     LogoPath.Substring(1));
             }
         }

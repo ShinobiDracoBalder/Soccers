@@ -35,7 +35,7 @@ namespace Soccers.Common.Models
                 }
 
                 return string.Format(
-                    "localhost:44372{0}",
+                    "http://soccergame.ddns.net:8085/{0}",
                     PicturePath.Substring(1));
             }
         }

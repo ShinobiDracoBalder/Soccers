@@ -21,7 +21,7 @@ namespace Soccers.Prism.ViewModels
         {
             _navigationService = navigationService;
             _apiService = apiService;
-            Title = "Tourmanments";
+            Title = "Soccer Tourmanments";
             LoadTournamentsAsync();
         }
         

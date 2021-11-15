@@ -37,7 +37,7 @@ namespace Soccers.Prism.ViewModels
             if (parameters.ContainsKey("tournament"))
             {
                 Tournament = parameters.GetValue<TournamentResponse>("tournament");
-                Title = Tournament.Name;
+                //Title = Tournament.Name;
                 Groups = _transformHelper.ToGroups(_tournament.Groups);
             }
         }

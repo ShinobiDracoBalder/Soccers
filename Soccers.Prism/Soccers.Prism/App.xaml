@@ -9,10 +9,10 @@
     <!-- Application resource dictionary -->
         <ResourceDictionary>
             <!-- Parameters -->
-            <x:String x:Key="UrlAPI">http://soccers.ddns.net:8085/</x:String>
+            <x:String x:Key="UrlAPI">http://soccergame.ddns.net:8085/</x:String>
             
             <!-- Colors -->
-            <Color x:Key="ColorBackgroud">#54E85D</Color>
+            <Color x:Key="ColorBackgroud">#CAD5E2</Color>
             <Color x:Key="ColorPrimary">#191919</Color>
             <Color x:Key="ColorSecondary">#90FF69</Color>
             <Color x:Key="ColorDanger">#FFFFFF</Color>
