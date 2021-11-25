@@ -12,13 +12,13 @@
             <x:String x:Key="UrlAPI">http://soccergame.ddns.net:8085/</x:String>
             
             <!-- Colors -->
-            <Color x:Key="ColorBackgroud">#CAD5E2</Color>
-            <Color x:Key="ColorPrimary">#191919</Color>
-            <Color x:Key="ColorSecondary">#90FF69</Color>
-            <Color x:Key="ColorDanger">#FFFFFF</Color>
-            <Color x:Key="ColorAccent">#38006A</Color>
-            <Color x:Key="ColorFont">#191919</Color>
-            <Color x:Key="ColorFontInverse">#FFFFFF</Color>
+            <Color x:Key="ColorBackgroud">#D9D7D7</Color>
+            <Color x:Key="ColorPrimary">#0D0D0D</Color>
+            <Color x:Key="ColorSecondary">#A69D9C</Color>
+            <Color x:Key="ColorDanger">#F2F2F2</Color>
+            <Color x:Key="ColorAccent">#594540</Color>
+            <Color x:Key="ColorFont">#0D0D0D</Color>
+            <Color x:Key="ColorFontInverse">#F2F2F2</Color>
             
             <!-- Styles -->
             <Style TargetType="Button">

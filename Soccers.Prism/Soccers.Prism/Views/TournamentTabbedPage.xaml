@@ -4,6 +4,8 @@
             xmlns:prism="http://prismlibrary.com"
             xmlns:local="clr-namespace:Soccers.Prism.Views"
             prism:ViewModelLocator.AutowireViewModel="True"
+            xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             ios:Page.UseSafeArea="true"
             x:Class="Soccers.Prism.Views.TournamentTabbedPage"
             Title="{Binding Title}">
 

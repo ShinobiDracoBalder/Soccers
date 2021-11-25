@@ -4,6 +4,7 @@ using Soccers.Common.Helpers;
 using Soccers.Common.Services;
 using Soccers.Prism.ViewModels;
 using Soccers.Prism.Views;
+using Syncfusion.Licensing;
 using Xamarin.Essentials.Implementation;
 using Xamarin.Essentials.Interfaces;
 using Xamarin.Forms;
@@ -19,9 +20,11 @@ namespace Soccers.Prism
 
         protected override async void OnInitialized()
         {
-            InitializeComponent();
+            SyncfusionLicenseProvider.RegisterLicense("NTM1OTMxQDMxMzkyZTMzMmUzMGhFeVlZcTQ3YlYzSzR1UElORUZPNzlySWpDSklONzlSNWQ3YW5oM2c2ZEk9");
 
-            await NavigationService.NavigateAsync("NavigationPage/TournamentsPage");
+            InitializeComponent();
+            await NavigationService.NavigateAsync("/SoccerMasterDetailPage/NavigationPage/TournamentsPage");
+            //await NavigationService.NavigateAsync("NavigationPage/TournamentsPage");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -36,6 +39,11 @@ namespace Soccers.Prism
             containerRegistry.RegisterForNavigation<MatchesPage, MatchesPageViewModel>();
             containerRegistry.RegisterForNavigation<ClosedMatchesPage, ClosedMatchesPageViewModel>();
             containerRegistry.RegisterForNavigation<TournamentTabbedPage, TournamentTabbedPageViewModel>();
+            containerRegistry.RegisterForNavigation<SoccerMasterDetailPage, SoccerMasterDetailPageViewModel>();
+            containerRegistry.RegisterForNavigation<MyPredictionsPage, MyPredictionsPageViewModel>();
+            containerRegistry.RegisterForNavigation<MyPositionsPage, MyPositionsPageViewModel>();
+            containerRegistry.RegisterForNavigation<ModifyUserPage, ModifyUserPageViewModel>();
+            containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
         }
     }
 }

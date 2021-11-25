@@ -1,9 +1,11 @@
 ﻿using Newtonsoft.Json;
+using Plugin.Connectivity;
 using Soccers.Common.Models;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 
 namespace Soccers.Common.Services
 {
@@ -46,6 +48,20 @@ namespace Soccers.Common.Services
                     Message = ex.Message
                 };
             }
+        }
+        public bool CheckConnection()
+        {
+            return Connectivity.NetworkAccess == NetworkAccess.Internet;
+        }
+
+        public async Task<bool> CheckConnectionAsync(string url)
+        {
+            if (!CrossConnectivity.Current.IsConnected)
+            {
+                return false;
+            }
+
+            return await CrossConnectivity.Current.IsRemoteReachable(url);
         }
     }
 }

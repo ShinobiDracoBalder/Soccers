@@ -73,3 +73,27 @@ body {
     width: 800px;
     margin: 0 auto;
 }*/
+.submit-progress {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    height: 6em;
+    padding-top: 2.3em;
+    /* The following rules are the ones most likely to change 
+        https://www.aspsnippets.com/Articles/Display-Show-Loading-Progress-GIF-Image-when-Page-Loads-in-ASPNet-MVC.aspx
+    */
+
+    width: 20em;
+    /* Set 'margin-left' to a negative number
+
+     that is 1/2 of 'width' */
+
+    margin-left: -10em;
+    padding-left: 2.1em;
+    background-color: black;
+    color: white;
+}
+.submit-progress-bg {
+    background-color: lightgray;
+    opacity: .5;
+}

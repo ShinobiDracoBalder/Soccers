@@ -3,6 +3,7 @@ using Prism.Mvvm;
 using Prism.Navigation;
 using Soccers.Common.Helpers;
 using Soccers.Common.Models;
+using Soccers.Prism.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace Soccers.Prism.ViewModels
         public GroupsPageViewModel(INavigationService navigationService, 
             ITransformHelper transformHelper) : base(navigationService)
         {
-            Title = "Groups";
+            Title = Languages.Groups;
             _transformHelper = transformHelper;
         }
         public TournamentResponse Tournament

@@ -115,8 +115,10 @@ namespace Soccers.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(AddUserViewModel model)
         {
+
             if (ModelState.IsValid)
             {
+                System.Threading.Thread.Sleep(3000);
                 string path = string.Empty;
 
                 if (model.PictureFile != null)
