@@ -26,19 +26,16 @@ namespace Soccers.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<CookiePolicyOptions>(options =>
-            {
+            services.Configure<CookiePolicyOptions>(options =>{
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            services.ConfigureApplicationCookie(options =>
-            {
+            services.ConfigureApplicationCookie(options =>{
                 options.LoginPath = "/Account/NotAuthorized";
                 options.AccessDeniedPath = "/Account/NotAuthorized";
             });
 
-            services.AddIdentity<UserEntity, IdentityRole>(cfg =>
-            {
+            services.AddIdentity<UserEntity, IdentityRole>(cfg =>{
                 cfg.User.RequireUniqueEmail = true;
                 cfg.Password.RequireDigit = false;
                 cfg.Password.RequiredUniqueChars = 0;

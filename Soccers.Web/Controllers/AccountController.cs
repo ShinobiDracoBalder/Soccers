@@ -18,7 +18,8 @@ namespace Soccers.Web.Controllers
         private readonly IImageHelper _imageHelper;
         private readonly ICombosHelper _combosHelper;
 
-        public AccountController(DataContext dataContext, IUserHelper userHelper, IImageHelper imageHelper,
+        public AccountController(DataContext dataContext, IUserHelper userHelper, 
+            IImageHelper imageHelper,
             ICombosHelper combosHelper)
         {
             _dataContext = dataContext;
@@ -28,8 +29,7 @@ namespace Soccers.Web.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Index()
-        {
+        public async Task<IActionResult> Index(){
             return View(await _dataContext.Users
                 .Include(u => u.Team)
                 .Include(u => u.Predictions)
@@ -39,8 +39,7 @@ namespace Soccers.Web.Controllers
                 .ToListAsync());
         }
 
-        public async Task<IActionResult> Details(string id)
-        {
+        public async Task<IActionResult> Details(string id){
             if (id == null)
             {
                 return new NotFoundViewResult("_ResourceNotFound");
