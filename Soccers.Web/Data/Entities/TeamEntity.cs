@@ -13,7 +13,7 @@ namespace Soccers.Web.Data.Entities
         public string LogoPath { get; set; }
         [Display(Name = "Logo")]
         public string LogoFullPath => string.IsNullOrEmpty(LogoPath)
-           ? "https://localhost:44372//images/noimage.png"
+           ? "http://socceronline.comtecom.com.mx:8085/images/noimage.png"
            : $"https://zulusoccer.blob.core.windows.net/teams/{LogoPath}";
         [Display(Name = "Image")]
         public string ImageFullPath
@@ -23,14 +23,14 @@ namespace Soccers.Web.Data.Entities
                 if (string.IsNullOrEmpty(LogoPath))
                 {
                     //return "https://localhost:44372//images/noimage.png";
-                    return "http://soccergame.ddns.net:8085/images/noimage.png";
+                    return "http://socceronline.comtecom.com.mx:8085/images/noimage.png";
                 }
 
                 //return string.Format(
                 //    "https://localhost:44372/{0}",
                 //    LogoPath.Substring(1));
                 return string.Format(
-                    "http://soccergame.ddns.net:8085/{0}",
+                    "http://socceronline.comtecom.com.mx:8085{0}",
                     LogoPath.Substring(1));
             }
         }

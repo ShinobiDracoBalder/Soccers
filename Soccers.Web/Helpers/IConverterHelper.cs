@@ -20,5 +20,8 @@ namespace Soccers.Web.Helpers
         MatchViewModel ToMatchViewModel(MatchEntity matchEntity);
         TournamentResponse ToTournamentResponse(TournamentEntity tournamentEntity);
         List<TournamentResponse> ToTournamentResponse(List<TournamentEntity> tournamentEntities);
+        UserResponse ToUserResponse(UserEntity user);
+        PredictionResponse ToPredictionResponse(PredictionEntity predictionEntity);
+        MatchResponse ToMatchResponse(MatchEntity matchEntity);
     }
 }

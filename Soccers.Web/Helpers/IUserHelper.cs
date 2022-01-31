@@ -19,5 +19,12 @@ namespace Soccers.Web.Helpers
         Task<SignInResult> LoginAsync(LoginViewModel model);
         Task LogoutAsync();
         Task<UserEntity> AddUserAsync(AddUserViewModel model, string path, UserType userType);
+        Task<IdentityResult> UpdateUserAsync(UserEntity user);
+        Task<IdentityResult> ChangePasswordAsync(UserEntity user, string oldPassword, string newPassword);
+        Task<SignInResult> ValidatePasswordAsync(UserEntity user, string password);
+        Task<IdentityResult> ConfirmEmailAsync(UserEntity user, string token);
+        Task<string> GenerateEmailConfirmationTokenAsync(UserEntity user);
+        Task<string> GeneratePasswordResetTokenAsync(UserEntity user);
+        Task<IdentityResult> ResetPasswordAsync(UserEntity user, string token, string password);
     }
 }

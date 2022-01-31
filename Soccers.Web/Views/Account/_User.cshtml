@@ -38,6 +38,6 @@
 
 <div class="form-group">
     <label asp-for="TeamId" class="control-label"></label>
-    <select asp-for="TeamId" asp-items="Model.Teams" class="form-control"></select>
+    <select asp-for="TeamId" asp-items="Model.Teams" class="form-control" required></select>
     <span asp-validation-for="TeamId" class="text-danger"></span>
 </div>

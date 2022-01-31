@@ -6,11 +6,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Soccers.Web.Data;
 using Soccers.Web.Data.Entities;
 using Soccers.Web.Data.Repositories;
 using Soccers.Web.Helpers;
 using Soccers.Web.Services;
+using System.Text;
 
 namespace Soccers.Web
 {
@@ -36,6 +38,8 @@ namespace Soccers.Web
             });
 
             services.AddIdentity<UserEntity, IdentityRole>(cfg =>{
+                cfg.Tokens.AuthenticatorTokenProvider = TokenOptions.DefaultAuthenticatorProvider;
+                cfg.SignIn.RequireConfirmedEmail = true;
                 cfg.User.RequireUniqueEmail = true;
                 cfg.Password.RequireDigit = false;
                 cfg.Password.RequiredUniqueChars = 0;
@@ -50,22 +54,23 @@ namespace Soccers.Web
             services.AddControllersWithViews()
                 .AddRazorRuntimeCompilation();
 
+            services.AddAuthentication()
+               .AddCookie()
+               .AddJwtBearer(cfg =>
+               {
+                   cfg.TokenValidationParameters = new TokenValidationParameters
+                   {
+                       ValidIssuer = Configuration["Tokens:Issuer"],
+                       ValidAudience = Configuration["Tokens:Audience"],
+                       IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Tokens:Key"]))
+                   };
+               });
+
+
             services.AddDbContext<DataContext>(cfg =>
             {
                 cfg.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
-
-            //services.AddAuthentication()
-            //   .AddCookie()
-            //   .AddJwtBearer(cfg =>
-            //   {
-            //       cfg.TokenValidationParameters = new TokenValidationParameters
-            //       {
-            //           ValidIssuer = Configuration["Tokens:Issuer"],
-            //           ValidAudience = Configuration["Tokens:Audience"],
-            //           IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Tokens:Key"]))
-            //       };
-            //   });
 
             services.AddTransient<SeedDb>();
             services.AddScoped<IImageHelper, ImageHelper>();
@@ -73,12 +78,13 @@ namespace Soccers.Web
             services.AddScoped<ICombosHelper, CombosHelper>(); 
             services.AddScoped<IDapper, Dapperr>();
             services.AddScoped<IUserHelper, UserHelper>();
+            services.AddScoped<IMailHelper, MailHelper>();
+            services.AddScoped <IMatchHelper, MatchHelper > ();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env){
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

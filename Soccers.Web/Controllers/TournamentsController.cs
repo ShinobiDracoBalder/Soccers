@@ -17,15 +17,18 @@ namespace Soccers.Web.Controllers
         private readonly IConverterHelper _converterHelper;
         private readonly ICombosHelper _combosHelper;
         private readonly IImageHelper _imageHelper;
+        private readonly IMatchHelper _matchHelper;
 
         public TournamentsController(DataContext dataContext,
             IConverterHelper converterHelper,
-            ICombosHelper combosHelper, IImageHelper imageHelper)
+            ICombosHelper combosHelper, IImageHelper imageHelper,
+            IMatchHelper matchHelper)
         {
             _dataContext = dataContext;
             _converterHelper = converterHelper;
             _combosHelper = combosHelper;
             _imageHelper = imageHelper;
+            _matchHelper = matchHelper;
         }
         public async Task<IActionResult> Index()
         {
@@ -335,7 +338,8 @@ namespace Soccers.Web.Controllers
             return RedirectToAction($"{nameof(Details)}/{groupEntity.Tournament.Id}");
         }
 
-        [HttpGet("Something")]
+        //[HttpGet("Something")]
+        [HttpGet]
         public async Task<IActionResult> DetailsGroup(int? id)
         {
             if (id == null)
@@ -598,51 +602,52 @@ namespace Soccers.Web.Controllers
             return RedirectToAction($"{nameof(DetailsGroup)}/{matchEntity.Group.Id}");
         }
 
-        //public async Task<IActionResult> CloseMatch(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new NotFoundViewResult("_ResourceNotFound");
-        //    }
+        public async Task<IActionResult> CloseMatch(int? id)
+        {
+            if (id == null)
+            {
+                return new NotFoundViewResult("_ResourceNotFound");
+            }
 
-        //    var matchEntity = await _dataContext.Matches
-        //        .Include(m => m.Group)
-        //        .Include(m => m.Local)
-        //        .Include(m => m.Visitor)
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (matchEntity == null)
-        //    {
-        //        return new NotFoundViewResult("_ResourceNotFound");
-        //    }
+            var matchEntity = await _dataContext.Matches
+                .Include(m => m.Group)
+                .Include(m => m.Local)
+                .Include(m => m.Visitor)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (matchEntity == null)
+            {
+                return new NotFoundViewResult("_ResourceNotFound");
+            }
 
-        //    var model = new CloseMatchViewModel
-        //    {
-        //        Group = matchEntity.Group,
-        //        GroupId = matchEntity.Group.Id,
-        //        Local = matchEntity.Local,
-        //        LocalId = matchEntity.Local.Id,
-        //        MatchId = matchEntity.Id,
-        //        Visitor = matchEntity.Visitor,
-        //        VisitorId = matchEntity.Visitor.Id
-        //    };
+            var model = new CloseMatchViewModel
+            {
+                Group = matchEntity.Group,
+                GroupId = matchEntity.Group.Id,
+                Local = matchEntity.Local,
+                LocalId = matchEntity.Local.Id,
+                MatchId = matchEntity.Id,
+                Visitor = matchEntity.Visitor,
+                VisitorId = matchEntity.Visitor.Id
+            };
 
-        //    return View(model);
-        //}
+            return View(model);
+        }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> CloseMatch(CloseMatchViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        await _matchHelper.CloseMatchAsync(model.MatchId, model.GoalsLocal.Value, model.GoalsVisitor.Value);
-        //        return RedirectToAction($"{nameof(DetailsGroup)}/{model.GroupId}");
-        //    }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CloseMatch(CloseMatchViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                await _matchHelper.CloseMatchAsync(model.MatchId, model.GoalsLocal.Value, model.GoalsVisitor.Value);
+                //return RedirectToAction($"{nameof(DetailsGroup)}/{model.GroupId}");
+                return RedirectToAction("DetailsGroup", new { id = model.GroupId });
+            }
 
-        //    model.Group = await _dataContext.Groups.FindAsync(model.GroupId);
-        //    model.Local = await _dataContext.Teams.FindAsync(model.LocalId);
-        //    model.Visitor = await _dataContext.Teams.FindAsync(model.VisitorId);
-        //    return View(model);
-        //}
+            model.Group = await _dataContext.Groups.FindAsync(model.GroupId);
+            model.Local = await _dataContext.Teams.FindAsync(model.LocalId);
+            model.Visitor = await _dataContext.Teams.FindAsync(model.VisitorId);
+            return View(model);
+        }
     }
 }

@@ -30,7 +30,7 @@ namespace Soccers.Web.Data
             await CheckRolesAsync();
             await CheckTeamsAsync();
             await CheckTournamentsAsync();
-            await CheckUserAsync("911", "draco", "Orochi", "draco.orochi@jpmail.com", "(21-11: 00) 03 5774 0992", "Castillo Edo, el Palacio Imperial de Tokio", UserType.Admin, "Xamarin.jpg");
+            await CheckUserAsync("911", "draco", "Orochi", "draco.orochi@yopmail.com", "(21-11: 00) 03 5774 0992", "Castillo Edo, el Palacio Imperial de Tokio(Newington 14 St Leonard's Street, Edimburgo EH8 9QW)", UserType.Admin, "Xamarin.jpg");
             await CheckUsersAsync();
             await CheckPreditionsAsync();
         }
@@ -114,8 +114,8 @@ namespace Soccers.Web.Data
                     await _userHelper.AddUserAsync(user, "D123456");
                     await _userHelper.AddUserToRoleAsync(user, userType.ToString());
 
-                    //string token = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
-                    //await _userHelper.ConfirmEmailAsync(user, token);
+                    string token = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
+                    await _userHelper.ConfirmEmailAsync(user, token);
                 }
 
                 return user;

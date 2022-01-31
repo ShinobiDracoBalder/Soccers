@@ -35,7 +35,7 @@ namespace Soccers.Common.Models
                 }
 
                 return string.Format(
-                    "http://soccergame.ddns.net:8085/{0}",
+                    "http://socceronline.comtecom.com.mx:8085/{0}",
                     PicturePath.Substring(1));
             }
         }
