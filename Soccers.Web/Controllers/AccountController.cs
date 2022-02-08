@@ -220,12 +220,12 @@ namespace Soccers.Web.Controllers
             model.Teams = _combosHelper.GetComboTeams();
             return View(model);
         }
-        public IActionResult ChangerPassword()
+        public IActionResult ChangerPasswordMVC()
         {
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> ChangerPassword(ChangePasswordViewModel model)
+        public async Task<IActionResult> ChangerPasswordMVC(ChangePasswordViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -311,13 +311,13 @@ namespace Soccers.Web.Controllers
 
             return View();
         }
-        public IActionResult RecoverPassword()
+        public IActionResult RecoverPasswordMVC()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> RecoverPassword(RecoverPasswordViewModel model)
+        public async Task<IActionResult> RecoverPasswordMVC(RecoverPasswordViewModel model)
         {
             if (ModelState.IsValid)
             {
